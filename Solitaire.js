@@ -100,8 +100,12 @@ const graphics = canvas.getContext("2d");
 		mouseDown = true;
 		let index = 0;
 
-		let mouseX = mouse.offsetX;
-		let mouseY = mouse.offsetY;
+		//let mouseX = mouse.offsetX;
+		//let mouseY = mouse.offsetY;
+
+		let m = getMousePos(mouse);
+		mouseX = m.x;
+		mouseY = m.y;
 
 		graphics.fillRect(mouseX, mouseY, 20, 20);
 
@@ -171,19 +175,26 @@ const graphics = canvas.getContext("2d");
 		}
 
 		if (grabbedCard) {
-			offsetX = mouseX-grabbedCard.originalX;
-			offsetY = mouseY-grabbedCard.originalY;
+			//offsetX = mouseX-grabbedCard.originalX;
+			//offsetY = mouseY-grabbedCard.originalY;
 		}
 	});
 
 	canvas.addEventListener("mousemove", function(mouse) {
-		mouseX = mouse.offsetX;
-		mouseY = mouse.offsetY;
+		//mouseX = mouse.offsetX;
+		//mouseY = mouse.offsetY;
+
+		let m = getMousePos(mouse);
+		mouseX = m.x;
+		mouseY = m.y;
 	});
 
 	document.addEventListener("mouseup", function(mouse) {
 		if (grabbedCard != null) {
-			checkConditions(mouse.offsetX, mouse.offsetY);
+			let m = getMousePos(mouse);
+			const mouseX = m.x;
+			const mouseY = m.y;
+			checkConditions(mouseX, mouseY);
 		}
 
 		mouseDown = false;
@@ -607,12 +618,12 @@ const graphics = canvas.getContext("2d");
 				graphics.drawImage(cardUnder, grabbedCard.originalX, grabbedCard.originalY, 70, 100);
 			}
 			
-			grabbedCard.draw(mouseX-offsetX, mouseY-offsetY, true, true);
+			grabbedCard.draw(mouseX-grabbedCard.width/2, mouseY-grabbedCard.height/2, true, true);
 		}
 
 		if (grabbedCards.length > 0) {
 			for (let i = 0; i < grabbedCards.length; i++) {
-				grabbedCards[i].draw(mouseX-offsetX, i*40+mouseY-offsetY, true);
+				grabbedCards[i].draw(mouseX-grabbedCards[i].width/2, i*40+mouseY-grabbedCards[i].height/2, true);
 			}
 		}
 	}
